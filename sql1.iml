@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module type="JAVA_MODULE" version="4">
+  <component name="NewModuleRootManager" inherit-compiler-output="true">
+    <exclude-output />
+    <content url="file://$MODULE_DIR$">
+      <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
+    </content>
+    <orderEntry type="inheritedJdk" />
+    <orderEntry type="sourceFolder" forTests="false" />
+  </component>
+</module>
+
+ CREATE USER 'viewer'@'localhost' IDENTIFIED BY 'passwordhere';
+        FLUSH PRIVILEGES;
+
+        CREATE USER 'writer'@'localhost' IDENTIFIED BY 'passwordhere';
+        FLUSH PRIVILEGES;
+
+        SELECT User FROM mysql.user;
+
+        CREATE ROLE 'app_developer';
+        CREATE ROLE 'app_read';
+        CREATE ROLE 'app_write';
+
+        GRANT ALL PRIVILEGES ON *.* TO 'app_developer';
+        GRANT SELECT ON *.* TO 'app_read';
+        GRANT INSERT, UPDATE, DELETE ON *.* TO 'app_write';
+
+        GRANT 'app_developer' TO 'developer'@'localhost';
+        GRANT 'app_read' TO 'viewer'@'localhost';
+        GRANT 'app_write' TO 'writer'@'localhost';
+
+
+        CREATE DATABASE IF NOT EXISTS newdb;
+
+        GRANT ALL PRIVILEGES ON newdb.* TO 'developer'@'localhost';
+        GRANT SELECT ON newdb.* TO 'viewer'@'localhost';
+        GRANT INSERT, UPDATE, DELETE ON newdb.* TO 'writer'@'localhost';
+        FLUSH PRIVILEGES;
